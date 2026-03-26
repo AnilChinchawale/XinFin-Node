@@ -37,7 +37,7 @@ log_level=${LOG_LEVEL:-2}
 
 # ── Sync Mode ─────────────────────────────────────────────────
 sync_mode=${SYNC_MODE:-full}
-gc_mode=${GC_MODE:-archive}
+gc_mode=${GC_MODE:-full}
 
 # ── Ethstats ──────────────────────────────────────────────────
 INSTANCE_IP=$(curl -sf https://checkip.amazonaws.com 2>/dev/null || echo "unknown")
