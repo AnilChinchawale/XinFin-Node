@@ -73,19 +73,12 @@ args=(
     --port 30312
     --unlock "${wallet}"
     --password /work/.pwd
+    --mine
     --gasprice "1"
     --targetgaslimit "420000000"
     --verbosity "${log_level}"
     --store-reward
 )
-
-NODE_TYPE="${NODE_TYPE:-fullnode}"
-if [ "${NODE_TYPE}" = "masternode" ] || [ "${NODE_TYPE}" = "validator" ]; then
-    args+=(--mine)
-    echo "Mode: MASTERNODE"
-else
-    echo "Mode: FULLNODE (sync only)"
-fi
 
 if echo "${ENABLE_RPC}" | grep -iq "true"; then
 

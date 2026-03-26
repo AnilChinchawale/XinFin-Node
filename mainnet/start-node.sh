@@ -65,15 +65,6 @@ args=(
     --verbosity "${log_level}"
 )
 
-# ── Node Type ─────────────────────────────────────────────
-NODE_TYPE="${NODE_TYPE:-fullnode}"
-if [ "${NODE_TYPE}" = "masternode" ] || [ "${NODE_TYPE}" = "validator" ]; then
-    args+=(--mine)
-    echo "  Mode: MASTERNODE (mining/validating enabled)"
-else
-    echo "  Mode: FULLNODE (sync only — no mining)"
-fi
-
 # ── RPC Configuration (Security Hardened) ─────────────────────
 if echo "${ENABLE_RPC}" | grep -iq "true"; then
 
