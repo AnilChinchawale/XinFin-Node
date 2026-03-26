@@ -1,1 +1,4 @@
-sudo docker exec -it xinfin-node_xinfinnetwork_1  XDC --exec 'eth.coinbase' --exec 'miner.setEtherbase(eth.accounts[0])' attach /work/xdcchain/XDC.ipc
+#!/bin/bash
+echo "Use the network-specific upgrade script:"
+echo "  cd mainnet && bash upgrade.sh"
+echo "  cd testnet && bash upgrade.sh"

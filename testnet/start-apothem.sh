@@ -50,7 +50,7 @@ else
 fi
 
 # Set gc_mode from GC_MODE env or default to 'archive'
-gc_mode=archive
+gc_mode=full
 if test -z "$GC_MODE"; then
     echo "GC_MODE not set, default to archive" # full or archive
 else
@@ -81,6 +81,29 @@ args=(
 )
 
 if echo "${ENABLE_RPC}" | grep -iq "true"; then
+
+    # ══ SECURITY CHECKS ══════════════════════════════════════
+    if echo "${RPC_API}" | grep -iq "debug"; then
+        echo "SECURITY ERROR: 'debug' in RPC_API — debug_setHead can destroy chain state."
+        echo "Remove 'debug' from RPC_API in .env"
+        exit 1
+    fi
+    if echo "${RPC_API}" | grep -iq "admin"; then
+        echo "SECURITY ERROR: 'admin' in RPC_API — admin_startHTTP can open new listeners."
+        echo "Remove 'admin' from RPC_API in .env"
+        exit 1
+    fi
+    if echo "${RPC_API}" | grep -iq "personal"; then
+        echo "SECURITY ERROR: 'personal' in RPC_API — exposes key management."
+        echo "Remove 'personal' from RPC_API in .env"
+        exit 1
+    fi
+    RPC_ADDR="${RPC_ADDR:-127.0.0.1}"
+    if [ "${RPC_ADDR}" = "0.0.0.0" ]; then
+        echo "⚠️  WARNING: RPC binding to 0.0.0.0 — your signing key will be accessible from the internet!"
+        sleep 3
+    fi
+
     args+=(
         --rpc
         --rpcaddr "${RPC_ADDR}"
