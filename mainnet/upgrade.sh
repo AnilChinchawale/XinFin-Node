@@ -1,18 +1,20 @@
 #!/bin/bash
 
-echo "Upgrading XDC Network Configuration Scripts"
+echo "Upgrading XDC Network Node..."
 
-mv .env .env.bak
-mv .nodekey .nodekey.bak
+# Backup config
+cp .env .env.bak 2>/dev/null || true
 
+# Pull latest configs
 git stash
 git pull
 
-mv .env.bak .env
-mv .nodekey.bak .nodekey
+# Restore config
+mv .env.bak .env 2>/dev/null || true
 
-echo "Upgrading Docker Images"
-sudo docker pull xinfinorg/xdposchain:v2.6.8
-docker compose -f docker-compose.yml down
-git pull
-docker compose -f docker-compose.yml up -d
+# Pull latest Docker image and restart
+docker compose pull
+docker compose down
+docker compose up -d
+
+echo "Upgrade complete."

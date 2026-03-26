@@ -13,4 +13,20 @@ services:
     env_file:
       - .env
     ports:
+      # P2P — must be public for consensus
       - "30303:30303"
+      # RPC/WS — localhost only (use reverse proxy for external access)
+      # Uncomment if ENABLE_RPC=true:
+      # - "127.0.0.1:8545:8545"
+      # - "127.0.0.1:8546:8546"
+    healthcheck:
+      test: ["CMD-SHELL", "XDC attach --datadir /work/xdcchain --exec 'eth.blockNumber' 2>/dev/null | grep -q '[0-9]' || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "5"

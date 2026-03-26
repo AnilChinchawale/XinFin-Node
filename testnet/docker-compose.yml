@@ -1,10 +1,29 @@
 services:
   xinfinnetwork:
     container_name: xdcnetwork-testnet-node
-    image: xinfinorg/xdposchain:v2.6.7-testnet
+    image: xinfinorg/xdposchain:v2.6.8
     volumes:
-      - "./xdcchain-testnet:/work/xdcchain"
+      - "./xdcchain:/work/xdcchain"
+      - "./genesis.json:/work/genesis.json"
       - "./start-apothem.sh:/work/start.sh"
+      - "./bootnodes.list:/work/bootnodes.list"
+      - "./.pwd:/work/.pwd"
+      - "/etc/localtime:/etc/localtime:ro"
     restart: "always"
-    env_file: .env
-    network_mode: "host"
+    env_file:
+      - .env
+    ports:
+      - "30312:30312"
+      # - "127.0.0.1:8545:8545"
+      # - "127.0.0.1:8546:8546"
+    healthcheck:
+      test: ["CMD-SHELL", "XDC attach --datadir /work/xdcchain --exec 'eth.blockNumber' 2>/dev/null | grep -q '[0-9]' || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "5"
