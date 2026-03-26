@@ -60,6 +60,7 @@ args=(
     --port 30303
     --unlock "${wallet}"
     --password /work/.pwd
+    --mine
     --gasprice "1"
     --targetgaslimit "420000000"
     --verbosity "${log_level}"
