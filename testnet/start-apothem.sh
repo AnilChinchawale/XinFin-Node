@@ -50,7 +50,7 @@ else
 fi
 
 # Set gc_mode from GC_MODE env or default to 'archive'
-gc_mode=archive
+gc_mode=full
 if test -z "$GC_MODE"; then
     echo "GC_MODE not set, default to archive" # full or archive
 else
