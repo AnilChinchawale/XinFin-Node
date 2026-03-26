@@ -148,7 +148,13 @@ if echo "${ENABLE_RPC}" | grep -iq "true"; then
     echo "  RPC: ${RPC_ADDR}:${RPC_PORT:-8545} | API: ${RPC_API:-net,web3,XDPoS}"
     echo "  WS:  ${WS_ADDR:-127.0.0.1}:${WS_PORT:-8546}"
 else
-    echo "  RPC: disabled (set ENABLE_RPC=true to enable)"
+    echo "  RPC: disabled (set ENABLE_RPC=true in .env to enable)"
+    echo "  WS:  disabled"
+    echo ""
+    echo "  ℹ️  To enable RPC for local access only:"
+    echo "     1. Set ENABLE_RPC=true in .env"
+    echo "     2. Keep RPC_ADDR=127.0.0.1 (default)"
+    echo "     3. Restart: docker compose down && docker compose up -d"
 fi
 
 # ── Start Node ────────────────────────────────────────────────
